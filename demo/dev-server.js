@@ -1,6 +1,7 @@
 var WebpackDevServer = require('webpack-dev-server')
 var webpack = require('webpack')
 var config = require('./webpack.config.js')
+var opn = require('opn')
 
 config.entry.bundle.unshift("webpack-dev-server/client?http://localhost:8080/", "webpack/hot/dev-server")
 config.plugins = [
@@ -34,4 +35,12 @@ var server = new WebpackDevServer(compiler, {
   }
 })
 
-server.listen(8080, 'localhost', function () {})
+server.listen(8080, 'localhost', function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  var uri = 'http://localhost:8080'
+  console.log('Listening at ' + uri + '\n')
+  opn(uri)
+})
