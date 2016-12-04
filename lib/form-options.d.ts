@@ -29,4 +29,21 @@ export interface FormOptions extends ComponentOptions<Vue> {
 	 * @memberOf FormOptions
 	 */
 		validateInline?: boolean
+
+
+		/**
+		 * Replace root template
+		 * 
+		 * @type {boolean}
+		 * @memberOf FormOptions
+		 */
+		replace?: boolean
+
+		/**
+		 * CSS class for generated form
+		 * 
+		 * @type {string}
+		 * @memberOf FormOptions
+		 */
+		class? : string
 }

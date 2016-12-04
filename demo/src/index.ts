@@ -1,7 +1,8 @@
 import * as Vue from 'vue';
 import * as VueRouter from 'vue-router';
 import { Component } from 'vue-typed';
-import * as VueTypedUI from '../../dist/vue-typed-ui';
+import { Options } from '../../dist/vue-typed-ui';
+import * as VueTypedUI from '../../src/index';
 import { SettingsPage } from './settings-page';
 
 
@@ -12,7 +13,7 @@ import { SettingsPage } from './settings-page';
 // --------------------------------------------------------------------------------------
 Vue.use(VueRouter);
 
-Vue.use(VueTypedUI, <VueTypedUI.Options> {
+Vue.use(VueTypedUI, <Options>{
 	prefix: 'ui',
 	toastr: {
 		showDuration: 300,
@@ -23,14 +24,18 @@ Vue.use(VueTypedUI, <VueTypedUI.Options> {
 
 
 import { Menu } from './menu';
-import { routes } from './routes';
+import { routes, exampleRoutes } from './routes';
+import { BasePage } from './pages/base';
+
+
+var allRoutes = [{ path: '/:type/:name', component: BasePage, children: exampleRoutes }]
 
 
 // --------------------------------------------------------------------------------------
 // Initialize router
 // --------------------------------------------------------------------------------------
 var router = new VueRouter({
-	routes,
+	routes: allRoutes,
 	linkActiveClass: 'active'
 });
 

@@ -1,5 +1,7 @@
 import { FormBasic } from './form/basic';
-import { FormAdvanced } from './form/form-component';
+import { FormInline } from './form/inline';
+import { FormComponentBasic } from './form-component/basic';
+import { FormComponentReplace } from './form-component/replace';
 import { Input } from './input';
 import { Numeric } from './numeric';
 import { Currency } from './currency';
@@ -18,35 +20,40 @@ import { Menu } from './menu';
 import { Message } from './message';
 import { Alert } from './alert';
 import { Toastr } from './toastr';
+import { Focus } from './focus';
 
 
 // Main routes builder
 const m = [
-	{ text: 'Form Basic', path: 'form/basic', component: FormBasic },
-	{ text: 'Form Component', path: 'form/form-component', component: FormAdvanced },
-	{ text: 'Input', path: 'input', component: Input },
-	{ text: 'Numeric', path: 'numeric', component: Numeric },
-	{ text: 'Currency', path: 'currency', component: Currency },
-	{ text: 'Date', path: 'date', component: DateDemo },
-	{ text: 'Time', path: 'time', component: Time },
-	{ text: 'DateTime', path: 'datetime', component: DateTime },
-	{ text: 'Tab', path: 'tab/basic', component: TabBasic },
-	{ text: 'Tab Interactive', path: 'tab/interactive', component: TabInteractive },
-	{ text: 'Buttons', path: 'button', component: Button },
-	{ text: 'Radio', path: 'radio', component: Radio },
-	{ text: 'Checkbox', path: 'checkbox', component: Checkbox },
-	{ text: 'Dropdown', path: 'dropdown', component: Dropdown },
-	{ text: 'Modal', path: 'modal', component: Modal },
-	{ text: 'Tree', path: 'tree', component: Tree },
-	{ text: 'Menu', path: 'menu', component: Menu },
-	{ text: 'Message', path: 'message', component: Message },
-	{ text: 'Alert', path: 'alert', component: Alert },
-	{ text: 'Toastr', path: 'toastr', component: Toastr }
+	{ group: 'component/form', text: 'Form Basic', path: 'form/basic', component: FormBasic },
+	{ group: 'component/form', text: 'Inline Form', path: 'form/inline', component: FormInline },
+	{ group: 'decorator/form', text: 'Basic', path: 'form-component/basic', component: FormComponentBasic },
+	{ group: 'decorator/form', text: 'Replace', path: 'form-component/replace', component: FormComponentReplace },
+	{ group: 'component/input', text: 'Input', path: 'input', component: Input },
+	{ group: 'component/numeric', text: 'Numeric', path: 'numeric', component: Numeric },
+	{ group: 'component/currency', text: 'Currency', path: 'currency', component: Currency },
+	{ group: 'component/date', text: 'Date', path: 'date', component: DateDemo },
+	{ group: 'component/time', text: 'Time', path: 'time', component: Time },
+	{ group: 'component/datetime', text: 'DateTime', path: 'datetime', component: DateTime },
+	{ group: 'component/tab', text: 'Tab', path: 'tab/basic', component: TabBasic },
+	{ group: 'component/tab', text: 'Tab Interactive', path: 'tab/interactive', component: TabInteractive },
+	{ group: 'component/button', text: 'Buttons', path: 'button', component: Button },
+	{ group: 'component/radio', text: 'Radio', path: 'radio', component: Radio },
+	{ group: 'component/checkbox', text: 'Checkbox', path: 'checkbox', component: Checkbox },
+	{ group: 'component/dropdown', text: 'Dropdown', path: 'dropdown', component: Dropdown },
+	{ group: 'component/modal', text: 'Modal', path: 'modal', component: Modal },
+	{ group: 'component/tree', text: 'Tree', path: 'tree', component: Tree },
+	{ group: 'component/menu', text: 'Menu', path: 'menu', component: Menu },
+	{ group: 'component/message', text: 'Message', path: 'message', component: Message },
+	{ group: 'module/alert', text: 'Alert', path: 'alert', component: Alert },
+	{ group: 'module/toastr', text: 'Toastr', path: 'toastr', component: Toastr },
+	{ group: 'module/focus', text: 'Focus', path: 'focus', component: Focus }
 ]
 
 // Build router routes
 export const routes = m.map((m) => {
 	return {
+		group: m.group,
 		text: m.text,
 		path: _path(m.path),
 		component: m.component
