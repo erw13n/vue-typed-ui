@@ -320,6 +320,10 @@
     "type": "component",
     "readme": false,
     "props": {
+      "css": {
+        "type": "string",
+        "description": "Css class(es) applied to dropdown component"
+      },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
         "description": "Field layout style"
@@ -475,6 +479,11 @@
     "type": "component",
     "readme": false,
     "props": {
+      "keyboard-shortcuts": {
+        "type": "boolean",
+        "description": "Adds keyboard shortcut for enter key to submit form",
+        "default": "true"
+      },
       "label-width": {
         "type": "string",
         "description": "Width of fields label when displayed 'inline'."
@@ -511,8 +520,21 @@
       "FieldBase": "../../fields/field-base"
     },
     "type": "component",
-    "readme": false,
+    "readme": true,
     "props": {
+      "css": {
+        "type": "string",
+        "description": "Css class(es) applied to input component"
+      },
+      "icon": {
+        "type": "string",
+        "description": "Name of icon to be displayed"
+      },
+      "icon-pos": {
+        "type": "'left' | 'right' | string",
+        "description": "Icon position",
+        "default": "'left'"
+      },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
         "description": "Field layout style"
@@ -635,7 +657,7 @@
         "description": "If set to `true` then `to` attribute will always represents `href` attribute of `a` tag."
       },
       "to": {
-        "type": "string",
+        "type": "string | Object",
         "description": "Target URL when menu item clicked. If you are using vue-router then this attribute represents `to` attribute of `router-link` tag."
       }
     },
@@ -1073,6 +1095,13 @@
     "module": "currency",
     "type": "filter",
     "readme": false
+  },
+  "filter/int": {
+    "dir": "src/filters/int",
+    "id": "filter/int",
+    "module": "int",
+    "type": "filter",
+    "readme": true
   },
   "filter/numeric": {
     "dir": "src/filters/numeric",

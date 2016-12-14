@@ -1,5 +1,5 @@
 /**
-  * vue-typed-ui 1.0.1-alpha
+  * vue-typed-ui 1.2.0
   * UI components made with Semantic UI, VueTyped and friends
   * https://github.com/vue-typed/vue-typed-ui
   
@@ -185,7 +185,17 @@ var _FormBase = function (_Vue) {
 
     function _FormBase() {
         classCallCheck(this, _FormBase);
-        return possibleConstructorReturn(this, (_FormBase.__proto__ || Object.getPrototypeOf(_FormBase)).apply(this, arguments));
+
+        /**
+         * Adds keyboard shortcut for enter key to submit form
+         *
+         * @default true
+         * @type {boolean}
+         */
+        var _this = possibleConstructorReturn(this, (_FormBase.__proto__ || Object.getPrototypeOf(_FormBase)).apply(this, arguments));
+
+        _this.keyboardShortcuts = true;
+        return _this;
     }
 
     return _FormBase;
@@ -198,6 +208,9 @@ __decorate([vueTyped.Prop({
 __decorate([vueTyped.Prop({
     type: String
 })], _FormBase.prototype, "labelWidth", void 0);
+__decorate([vueTyped.Prop({
+    type: Boolean
+})], _FormBase.prototype, "keyboardShortcuts", void 0);
 
 var Form = function (_FormBase2) {
     inherits(Form, _FormBase2);
@@ -215,9 +228,11 @@ var Form = function (_FormBase2) {
                 onSuccess: function onSuccess() {
                     self.$emit('success');
                 },
-                onError: function onError() {
-                    self.$emit('error');
-                }
+                onFailure: function onFailure(formErrors, fields) {
+                    self.$emit('error', formErrors, fields);
+                },
+                // using default form keyboard shortcuts instead 
+                keyboardShortcuts: false
             };
             if (this.validator) {
                 Object.assign(opt, {
@@ -242,7 +257,8 @@ var Form = function (_FormBase2) {
     }, {
         key: 'render',
         value: function render(ch) {
-            return ch('form', {
+            var tag = this.keyboardShortcuts ? 'form' : 'div';
+            return ch(tag, {
                 class: 'ui form',
                 domProps: {
                     onsubmit: function onsubmit(e) {
@@ -545,7 +561,7 @@ var FieldBase = function (_FieldBaseBase2) {
                 contents.push(ch('label', this.label));
             }
             contents.push(slots);
-            var style = 'field';
+            var style = this.wide ? 'fields' : 'field';
             if (this.kind) {
                 style = this.kind + ' fields';
             }
@@ -577,7 +593,17 @@ var _InputBase = function (_FieldBase) {
 
     function _InputBase() {
         classCallCheck(this, _InputBase);
-        return possibleConstructorReturn(this, (_InputBase.__proto__ || Object.getPrototypeOf(_InputBase)).apply(this, arguments));
+
+        /**
+         * Icon position
+         *
+         * @default 'left'
+         * @type {'left' | 'right' | string}
+         */
+        var _this = possibleConstructorReturn(this, (_InputBase.__proto__ || Object.getPrototypeOf(_InputBase)).apply(this, arguments));
+
+        _this.iconPos = 'left';
+        return _this;
     }
 
     return _InputBase;
@@ -593,6 +619,13 @@ __decorate([vueTyped.Prop()], _InputBase.prototype, "value", void 0);
 __decorate([vueTyped.Prop({
     type: Boolean
 })], _InputBase.prototype, "password", void 0);
+__decorate([vueTyped.Prop({
+    type: String
+})], _InputBase.prototype, "icon", void 0);
+__decorate([vueTyped.Prop()], _InputBase.prototype, "iconPos", void 0);
+__decorate([vueTyped.Prop({
+    type: String
+})], _InputBase.prototype, "css", void 0);
 
 // ref: http://vuejs.org/guide/components.html#Form-Input-Components-using-Custom-Events
 var Input = function (_InputBase2) {
@@ -612,7 +645,8 @@ var Input = function (_InputBase2) {
     }, {
         key: 'createComponent',
         value: function createComponent(ch) {
-            return ch('input', {
+            var input = ch('input', {
+                class: this.css,
                 attrs: {
                     type: this.password ? 'password' : 'text',
                     name: this.name,
@@ -623,6 +657,23 @@ var Input = function (_InputBase2) {
                     change: this.emiter('change')
                 }
             });
+            if (!this.icon) return input;
+            var icon = ch('i', {
+                class: 'icon ' + this.icon
+            });
+            var contents = [];
+            var css = 'ui left icon input';
+            if (this.iconPos == 'left') {
+                contents.push(icon);
+                contents.push(input);
+            } else {
+                contents.push(input);
+                contents.push(icon);
+                css = 'ui icon input';
+            }
+            return ch('div', {
+                class: css
+            }, contents);
         }
     }, {
         key: 'mounted',
@@ -675,7 +726,8 @@ var Calendar = function (_CalendarBase2) {
         value: function createComponent(ch) {
             var _this2 = this;
 
-            var children = [ch('i', { attrs: { 'class': this.icon + ' icon' } }), ch('input', { attrs: { type: 'text', name: this.name, placeholder: this.placeholder } })];
+            var attr = this.calendarOptions();
+            var children = [ch('i', { attrs: { 'class': attr.icon + ' icon' } }), ch('input', { attrs: { type: 'text', name: this.name, placeholder: this.placeholder } })];
             var css = 'ui input left icon';
             if (this.canClear) {
                 css += ' action';
@@ -706,9 +758,10 @@ var Calendar = function (_CalendarBase2) {
         value: function setupUi() {
             var _this3 = this;
 
+            var attr = this.calendarOptions();
             var sender = this;
             var options$$1 = {
-                type: this.type,
+                type: attr.type,
                 onChange: function onChange(date, text) {
                     _this3.$emit('input', date);
                 }
@@ -762,15 +815,18 @@ var Date = function (_DateBase2) {
 
     function Date() {
         classCallCheck(this, Date);
-
-        var _this = possibleConstructorReturn(this, (Date.__proto__ || Object.getPrototypeOf(Date)).apply(this, arguments));
-
-        _this.type = 'date';
-        _this.icon = 'calendar';
-        return _this;
+        return possibleConstructorReturn(this, (Date.__proto__ || Object.getPrototypeOf(Date)).apply(this, arguments));
     }
 
     createClass(Date, [{
+        key: 'calendarOptions',
+        value: function calendarOptions() {
+            return {
+                type: 'date',
+                icon: 'calendar'
+            };
+        }
+    }, {
         key: 'onSettingsChanged',
         value: function onSettingsChanged(val) {
             $(this.$el)['calendar']('destroy');
@@ -821,15 +877,18 @@ var Time = function (_TimeBase2) {
 
     function Time() {
         classCallCheck(this, Time);
-
-        var _this = possibleConstructorReturn(this, (Time.__proto__ || Object.getPrototypeOf(Time)).apply(this, arguments));
-
-        _this.type = 'time';
-        _this.icon = 'time';
-        return _this;
+        return possibleConstructorReturn(this, (Time.__proto__ || Object.getPrototypeOf(Time)).apply(this, arguments));
     }
 
     createClass(Time, [{
+        key: 'calendarOptions',
+        value: function calendarOptions() {
+            return {
+                type: 'time',
+                icon: 'time'
+            };
+        }
+    }, {
         key: 'onSettingsChanged',
         value: function onSettingsChanged(val) {
             $(this.$el)['calendar']('destroy');
@@ -880,15 +939,18 @@ var DateTime = function (_DatetimeBase2) {
 
     function DateTime() {
         classCallCheck(this, DateTime);
-
-        var _this = possibleConstructorReturn(this, (DateTime.__proto__ || Object.getPrototypeOf(DateTime)).apply(this, arguments));
-
-        _this.type = 'datetime';
-        _this.icon = 'calendar';
-        return _this;
+        return possibleConstructorReturn(this, (DateTime.__proto__ || Object.getPrototypeOf(DateTime)).apply(this, arguments));
     }
 
     createClass(DateTime, [{
+        key: 'calendarOptions',
+        value: function calendarOptions() {
+            return {
+                type: 'datetime',
+                icon: 'calendar'
+            };
+        }
+    }, {
         key: 'onSettingsChanged',
         value: function onSettingsChanged(val, old) {
             if (old.dateFormat === val.dateFormat && old.timeFormat === val.timeFormat) return;
@@ -1322,6 +1384,9 @@ __decorate([vueTyped.Prop({
 __decorate([vueTyped.Prop({
     type: Boolean
 })], _DropdownBase.prototype, "multiple", void 0);
+__decorate([vueTyped.Prop({
+    type: String
+})], _DropdownBase.prototype, "css", void 0);
 
 var Dropdown = function (_DropdownBase2) {
     inherits(Dropdown, _DropdownBase2);
@@ -1338,7 +1403,8 @@ var Dropdown = function (_DropdownBase2) {
     createClass(Dropdown, [{
         key: 'createComponent',
         value: function createComponent(ch) {
-            return ch('div', { 'class': 'ui selection dropdown' }, [ch('input', { attrs: { type: 'hidden', name: this.name } }), ch('i', { 'class': 'dropdown icon' }), ch('div', { 'class': 'default text' }, this.placeholder), ch('div', { 'class': 'menu' }, this.$slots['default'])]);
+            var css = 'ui selection dropdown ' + this.css;
+            return ch('div', { 'class': css }, [ch('input', { attrs: { type: 'hidden', name: this.name } }), ch('i', { 'class': 'dropdown icon' }), ch('div', { 'class': 'default text' }, this.placeholder), ch('div', { 'class': 'menu' }, this.$slots['default'])]);
         }
     }, {
         key: 'mounted',
@@ -1987,9 +2053,7 @@ var _MenuItemBase = function (_Vue) {
 __decorate([vueTyped.Prop({
     type: String
 })], _MenuItemBase.prototype, "icon", void 0);
-__decorate([vueTyped.Prop({
-    type: String
-})], _MenuItemBase.prototype, "to", void 0);
+__decorate([vueTyped.Prop()], _MenuItemBase.prototype, "to", void 0);
 __decorate([vueTyped.Prop({
     type: Boolean
 })], _MenuItemBase.prototype, "preventRouter", void 0);
@@ -2803,6 +2867,14 @@ function Currency$1(instance) {
     };
 }
 
+function Int(instance) {
+    return function (value) {
+        var settings = instance.$settings.numeric;
+        var str = Util.numberFormat(Math.round(value), 0, settings.decimalSeparator, settings.groupSeparator);
+        return str;
+    };
+}
+
 
 
 var filters = Object.freeze({
@@ -2810,7 +2882,8 @@ var filters = Object.freeze({
 	Date: Date$1,
 	Time: Time$1,
 	Numeric: Numeric$1,
-	Currency: Currency$1
+	Currency: Currency$1,
+	Int: Int
 });
 
 function register_all_components(vue, prefix) {

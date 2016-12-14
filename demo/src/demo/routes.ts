@@ -1,8 +1,11 @@
 import { FormBasic } from './form/basic';
 import { FormInline } from './form/inline';
+import { FormVariations } from './form/variations';
+import { FormDisableKeyboardShortcuts } from './form/disable-keyboard-shortcuts';
 import { FormComponentBasic } from './form-component/basic';
 import { FormComponentReplace } from './form-component/replace';
-import { Input } from './input';
+import { InputBasic } from './input/basic';
+import { InputIcon } from './input/icon';
 import { Numeric } from './numeric';
 import { Currency } from './currency';
 import { TabBasic } from './tab/basic';
@@ -21,15 +24,19 @@ import { Message } from './message';
 import { Alert } from './alert';
 import { Toastr } from './toastr';
 import { Focus } from './focus';
+import { Int } from './filters/int';
 
 
 // Main routes builder
 const m = [
 	{ group: 'component/form', text: 'Form Basic', path: 'form/basic', component: FormBasic },
 	{ group: 'component/form', text: 'Inline Form', path: 'form/inline', component: FormInline },
+	{ group: 'component/form', text: 'Variations', path: 'form/variations', component: FormVariations },
+	{ group: 'component/form', text: 'Disable Keyboard Shortcuts', path: 'form/disable-keyboard-shortcuts', component: FormDisableKeyboardShortcuts },
 	{ group: 'decorator/form', text: 'Basic', path: 'form-component/basic', component: FormComponentBasic },
-	{ group: 'decorator/form', text: 'Replace', path: 'form-component/replace', component: FormComponentReplace },
-	{ group: 'component/input', text: 'Input', path: 'input', component: Input },
+	{ group: 'decorator/form', text: 'Replace', path: 'form-component/replace', component: FormComponentReplace },	
+	{ group: 'component/input', text: 'Basic Input', path: 'input/basic', component: InputBasic },
+	{ group: 'component/input', text: 'Input With Icon', path: 'input/icon', component: InputIcon },	
 	{ group: 'component/numeric', text: 'Numeric', path: 'numeric', component: Numeric },
 	{ group: 'component/currency', text: 'Currency', path: 'currency', component: Currency },
 	{ group: 'component/date', text: 'Date', path: 'date', component: DateDemo },
@@ -47,7 +54,8 @@ const m = [
 	{ group: 'component/message', text: 'Message', path: 'message', component: Message },
 	{ group: 'module/alert', text: 'Alert', path: 'alert', component: Alert },
 	{ group: 'module/toastr', text: 'Toastr', path: 'toastr', component: Toastr },
-	{ group: 'module/focus', text: 'Focus', path: 'focus', component: Focus }
+	{ group: 'module/focus', text: 'Focus', path: 'focus', component: Focus },
+	{ group: 'filter/int', text: 'Int', path: 'filters/int', component: Int }
 ]
 
 // Build router routes

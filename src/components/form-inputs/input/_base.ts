@@ -48,4 +48,33 @@ export abstract class _InputBase extends FieldBase {
     })
     password: boolean
 
+    /**
+     * Name of icon to be displayed
+     * 
+     * @type {string}
+     */
+    @Prop({
+        type: String
+    })
+    icon: string
+
+    /**
+     * Icon position
+     * 
+     * @default 'left'
+     * @type {'left' | 'right' | string}
+     */
+    @Prop()
+    iconPos: 'left' | 'right' | string = 'left'
+
+    /**
+     * Css class(es) applied to input component
+     * 
+     * @type {string}
+     */
+    @Prop({
+        type: String
+    })
+    css: string
+
 }

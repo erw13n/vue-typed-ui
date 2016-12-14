@@ -12,9 +12,12 @@ export class Form extends _FormBase {
 			onSuccess: function () {
 				self.$emit('success')
 			},
-			onError: function () {
-				self.$emit('error')
-			}
+			onFailure: function (formErrors, fields) {
+				self.$emit('error', formErrors, fields)
+			},
+
+			// using default form keyboard shortcuts instead 
+			keyboardShortcuts: false
 		};
 
 		if (this.validator) {
@@ -42,7 +45,10 @@ export class Form extends _FormBase {
 	}
 
 	render(ch) {
-		return ch('form', {
+
+		let tag = this.keyboardShortcuts ? 'form' : 'div'
+
+		return ch(tag, {
 			class: 'ui form',
 			domProps: {
 				onsubmit: function onsubmit(e) {

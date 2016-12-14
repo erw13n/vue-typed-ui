@@ -3,7 +3,7 @@ import * as Vue from 'vue'
 import { Base } from '../../base'
 
 @Component({ template: require('./index.html') })
-export class FormInline extends Base {
+export class FormDisableKeyboardShortcuts extends Base {
 	firstName: string = ''
 	lastName: string = ''
 
