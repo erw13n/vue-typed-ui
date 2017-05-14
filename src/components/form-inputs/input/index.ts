@@ -1,30 +1,34 @@
-// ref: http://vuejs.org/guide/components.html#Form-Input-Components-using-Custom-Events
-
-import * as Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-typed';
-import { FieldBase } from '../../fields/field-base';
+import { Options } from 'vue-typed'
+import { _InputBase } from './_base'
+import { IInput } from '../../../../lib/interface';
 import { Util } from '../../../utils';
-import { _InputBase } from './_base';
 
-@Component()
-export class Input extends _InputBase {
-	
-	@Watch('value')
-	valueChanged(val) {
-		if (this.$el.querySelector('input') == document.activeElement)
-			return
+@Options()
+export class Input extends _InputBase implements IInput {
 
-		$(this.$el).find('input').val(val)
+
+	target(): JQuery {
+		return $(this.$el).find('input')
 	}
 
 	createComponent(ch) {
-				
+		let attrs = {
+			type: this.password ? 'password' : 'text',
+			name: this.name,
+			placeholder: this.placeholder
+		}
+
+		let css = 'ui input'
+		if (this.disabled) {
+			css += ' disabled'
+			attrs['disabled'] = true
+		}
+
 		let input = ch('input', {
 			class: this.css,
-			attrs: {
-				type: this.password ? 'password' : 'text',
-				name: this.name,
-				placeholder: this.placeholder
+			attrs,
+			domProps: {
+				value: this.value
 			},
 			on: {
 				input: this.emiter('input'),
@@ -32,19 +36,23 @@ export class Input extends _InputBase {
 			}
 		})
 
+
+
 		if (!this.icon)
-			return input;
+			return ch('div', {
+				class: css
+			}, [input])
 
 		let icon = ch('i', {
 			class: 'icon ' + this.icon
 		})
 
 		let contents = []
-		let css = 'ui left icon input'
+		css = 'ui left icon input'
 		if (this.iconPos == 'left') {
 			contents.push(icon)
 			contents.push(input)
-		} else{
+		} else {
 			contents.push(input)
 			contents.push(icon)
 			css = 'ui icon input'
@@ -53,12 +61,14 @@ export class Input extends _InputBase {
 		return ch('div', {
 			class: css
 		}, contents)
-
 	}
-	
+
 	mounted() {
 		// initiate value
 		var target = $(this.$el).find('input').val(this.value)
+
+		if (this.selectOnFocus)
+			target.on('focus', function () { $(this).select() })
 
 		// make up for validation
 		Util.setDataValidateAttr(this, target)

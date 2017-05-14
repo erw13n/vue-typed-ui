@@ -1,12 +1,16 @@
-import * as Vue from 'vue'
-import { Component, Prop } from 'vue-typed';
+import { Options } from 'vue-typed';
 import { _FieldBase } from './_base';
+import { IField } from '../../../../lib/interface';
 
+@Options()
+export class Field extends _FieldBase implements IField {
 
-@Component()
-export class Field extends _FieldBase {
+	target(): JQuery {
+		return $(this.$el)
+	}
 
 	createComponent(ch) {
 		return null
 	}
+		
 }

@@ -2,7 +2,7 @@ import * as Vue from 'vue'
 import * as opts from '../lib/options'
 import * as sets from '../lib/settings'
 import * as formOpt from '../lib/form-options'
-import {VueTypedUIMethods} from '../lib/methods'
+import {Components} from '../lib/interface'
 import * as modules from '../lib/modules'
 
 declare namespace VueTypedUI {
@@ -13,13 +13,14 @@ declare namespace VueTypedUI {
 	export function Validate(options): PropertyDecorator		
 }
 
-declare class VueTypedUI extends VueTypedUIMethods {
+declare class VueTypedUI extends Components {
 	static install: Vue.PluginFunction<VueTypedUI.Options>
 	
 	createValidationRule(name: string, rule: Function)
 	alert: modules.Alert
 	toast: modules.Toastr
 	focus: modules.Focus
+	loading: modules.Loading
 }
 
 declare class VueTypedUIRoot {

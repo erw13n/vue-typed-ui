@@ -1,25 +1,87 @@
 {
+  "component/accordion": {
+    "dir": "src/components/containers/accordion",
+    "id": "component/accordion",
+    "module": "accordion",
+    "base": {
+      "Vue": "vue"
+    },
+    "type": "component",
+    "readme": false,
+    "props": {
+      "animate-children": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Whether child content opacity should be animated (may cause performance issues with many child elements)"
+      },
+      "close-nested": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Close open nested accordion content when an element closes"
+      },
+      "collapsible": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Allow active sections to collapse"
+      },
+      "duration": {
+        "type": "number",
+        "default": "500",
+        "description": "Duration in ms of opening animation"
+      },
+      "exclusive": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Only allow one section open at a time"
+      },
+      "on": {
+        "type": "string",
+        "default": "'click'",
+        "description": "Event on title that will cause accordion to open"
+      }
+    },
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
+  },
+  "component/accordion-item": {
+    "dir": "src/components/containers/accordion-item",
+    "id": "component/accordion-item",
+    "module": "accordion-item",
+    "base": {
+      "Vue": "vue"
+    },
+    "type": "component",
+    "readme": false,
+    "props": {
+      "active": {
+        "type": "boolean",
+        "description": "Set accordion to active"
+      },
+      "title": {
+        "type": "string",
+        "description": "Accordion title"
+      }
+    },
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
+  },
   "component/button": {
     "dir": "src/components/form-inputs/button",
     "id": "component/button",
     "module": "button",
-    "isBase": false,
     "base": {
       "Vue": "vue"
     },
     "type": "component",
     "readme": true,
-    "methods": {
-      "loading": {
-        "description": "Set loading state of the button.",
-        "params": {
-          "state": {
-            "type": "boolean",
-            "description": "State of loading (true | false)"
-          }
-        }
-      }
-    },
     "props": {
       "animation": {
         "type": "string",
@@ -48,6 +110,27 @@
       "size": {
         "type": "'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive'",
         "description": "Button size"
+      },
+      "type": {
+        "type": "string",
+        "description": "Button type",
+        "default": "'button'"
+      }
+    },
+    "methods": {
+      "loading": {
+        "description": "Set loading state of the button.",
+        "type": "JQuery",
+        "params": {
+          "state": {
+            "type": "boolean",
+            "description": "State of loading (true | false)"
+          }
+        }
+      },
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
       }
     }
   },
@@ -65,6 +148,11 @@
       "can-clear": {
         "type": "boolean",
         "description": "Enable user to clear the value by clicking clear button on the right side of control"
+      },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
       },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
@@ -132,14 +220,19 @@
         "description": "v-model binding"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/currency": {
-    "dir": "src/components/form-inputs/currency",
+    "dir": "src/components/form-inputs/auto-numeric/currency",
     "id": "component/currency",
     "module": "currency",
     "base": {
-      "Numeric": "../numeric"
+      "NumericBase": "../numeric-base"
     },
     "type": "component",
     "readme": false,
@@ -151,6 +244,11 @@
       "decimal-separator": {
         "type": "string",
         "description": "Decimal group separator"
+      },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
       },
       "group-separator": {
         "type": "string",
@@ -185,6 +283,11 @@
         "type": "string",
         "description": "Input element placeholder"
       },
+      "select-on-focus": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Select text when receive focus"
+      },
       "sign": {
         "type": "string",
         "description": "Currency sign"
@@ -218,6 +321,11 @@
         "type": "boolean",
         "description": "Enable user to clear the value by clicking clear button on the right side of control"
       },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
+      },
       "format": {
         "type": "string",
         "description": "Date format"
@@ -255,7 +363,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/datetime": {
     "dir": "src/components/form-inputs/calendar/datetime",
@@ -271,6 +384,11 @@
         "type": "boolean",
         "description": "Enable user to clear the value by clicking clear button on the right side of control"
       },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
+      },
       "format": {
         "type": "string",
         "description": "Date format"
@@ -308,7 +426,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/dropdown": {
     "dir": "src/components/form-inputs/dropdown",
@@ -320,9 +443,10 @@
     "type": "component",
     "readme": false,
     "props": {
-      "css": {
-        "type": "string",
-        "description": "Css class(es) applied to dropdown component"
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
       },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
@@ -348,6 +472,10 @@
         "type": "boolean",
         "description": "A selection dropdown can allow a user to search through a large list of choices."
       },
+      "settings": {
+        "type": "object",
+        "description": "Semantic UI dropdown settings. See: https://semantic-ui.com/modules/dropdown.html#/settings"
+      },
       "value": {
         "type": "any",
         "description": "v-model binding"
@@ -357,7 +485,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/dropdown-item": {
     "dir": "src/components/form-inputs/dropdown-item",
@@ -374,7 +507,12 @@
         "description": "Dropdown item value"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/field": {
     "dir": "src/components/fields/field",
@@ -386,6 +524,11 @@
     "type": "component",
     "readme": false,
     "props": {
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
+      },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
         "description": "Field layout style"
@@ -399,7 +542,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/field-base": {
     "dir": "src/components/fields/field-base",
@@ -412,6 +560,11 @@
     "type": "component",
     "readme": false,
     "props": {
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
+      },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
         "description": "Field layout style"
@@ -446,7 +599,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/fields-inline": {
     "dir": "src/components/fields/fields-inline",
@@ -467,7 +625,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/form": {
     "dir": "src/components/form-inputs/form",
@@ -497,7 +660,12 @@
         "description": "Fields validation object. See: http://semantic-ui.com/behaviors/form.html#specifying-validation-rules"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/header": {
     "dir": "src/components/etc/header",
@@ -510,7 +678,12 @@
     "type": "component",
     "readme": false,
     "props": {},
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/input": {
     "dir": "src/components/form-inputs/input",
@@ -525,6 +698,11 @@
       "css": {
         "type": "string",
         "description": "Css class(es) applied to input component"
+      },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
       },
       "icon": {
         "type": "string",
@@ -555,6 +733,11 @@
         "type": "string",
         "description": "Input element placeholder"
       },
+      "select-on-focus": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Select text when receive focus"
+      },
       "value": {
         "type": "any",
         "description": "v-model binding"
@@ -564,7 +747,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/menu-base": {
     "dir": "src/components/menus/menu-base",
@@ -602,12 +790,22 @@
         "type": "boolean",
         "description": "Trigger dropdown on hover."
       },
+      "icon": {
+        "type": "string",
+        "description": "Dropdown icon",
+        "default": "'dropdown'"
+      },
       "label": {
         "type": "string",
         "description": "Dropdown title/label."
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/menu-horizontal": {
     "dir": "src/components/menus/menu-horizontal",
@@ -632,7 +830,12 @@
         "description": "JQuery object or selector to be attached as sidebar toggle"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/menu-item": {
     "dir": "src/components/menus/menu-item",
@@ -661,7 +864,12 @@
         "description": "Target URL when menu item clicked. If you are using vue-router then this attribute represents `to` attribute of `router-link` tag."
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/menu-vertical": {
     "dir": "src/components/menus/menu-vertical",
@@ -682,7 +890,12 @@
         "description": "JQuery object or selector to be attached as sidebar toggle"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/message": {
     "dir": "src/components/etc/message",
@@ -713,33 +926,28 @@
         "default": "'fade'"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/modal": {
     "dir": "src/components/modal",
     "id": "component/modal",
     "module": "modal",
-    "isBase": false,
     "base": {
       "Vue": "vue"
     },
     "type": "component",
     "readme": false,
-    "methods": {
-      "hide": {
-        "description": "Hides the modal"
-      },
-      "refresh": {
-        "description": "Refreshes centering of modal on page"
-      },
-      "show": {
-        "description": "Shows the modal"
-      },
-      "toggle": {
-        "description": "Toggles the modal"
-      }
-    },
     "props": {
+      "allow-multiple": {
+        "description": "Allow second modal to be opened on top of the first modal.",
+        "type": "boolean",
+        "default": "false"
+      },
       "attach-hide": {
         "description": "Attach hide event to another element",
         "type": "string",
@@ -780,22 +988,66 @@
           }
         }
       },
+      "autofocus": {
+        "description": "First input in modal will receive focus when shown.",
+        "type": "boolean",
+        "default": "false"
+      },
       "closable": {
         "description": "Setting to false will not allow you to close the modal by clicking on the dimmer.",
         "type": "boolean"
+      },
+      "icon": {
+        "description": "Header icon.",
+        "type": "string"
       },
       "transition": {
         "description": "Named transition to use when animating menu in and out, full list can be found in ui transitions docs.",
         "type": "SemanticUI.AnimationNames"
       }
+    },
+    "methods": {
+      "hide": {
+        "type": "JQuery",
+        "description": "Hides the modal"
+      },
+      "refresh": {
+        "type": "JQuery",
+        "description": "Refreshes centering of modal on page"
+      },
+      "show": {
+        "type": "JQuery",
+        "description": "Shows the modal"
+      },
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      },
+      "toggle": {
+        "type": "JQuery",
+        "description": "Toggles the modal"
+      }
     }
   },
   "component/numeric": {
-    "dir": "src/components/form-inputs/numeric",
+    "dir": "src/components/form-inputs/auto-numeric/numeric",
     "id": "component/numeric",
     "module": "numeric",
     "base": {
-      "FieldBase": "../../fields/field-base"
+      "NumericBase": "../numeric-base"
+    },
+    "type": "component",
+    "readme": false,
+    "props": {},
+    "methods": {}
+  },
+  "component/numeric-base": {
+    "dir": "src/components/form-inputs/auto-numeric/numeric-base",
+    "id": "component/numeric-base",
+    "module": "numeric-base",
+    "isBase": "true",
+    "base": {
+      "FieldBase": "../../../fields/field-base"
     },
     "type": "component",
     "readme": false,
@@ -807,6 +1059,11 @@
       "decimal-separator": {
         "type": "string",
         "description": "Decimal group separator"
+      },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
       },
       "group-separator": {
         "type": "string",
@@ -841,6 +1098,11 @@
         "type": "string",
         "description": "Input element placeholder"
       },
+      "select-on-focus": {
+        "type": "boolean",
+        "default": "true",
+        "description": "Select text when receive focus"
+      },
       "value": {
         "type": "any",
         "description": "v-model binding"
@@ -850,7 +1112,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/pusher": {
     "dir": "src/components/containers/pusher",
@@ -862,7 +1129,12 @@
     "type": "component",
     "readme": false,
     "props": {},
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/radio": {
     "dir": "src/components/form-inputs/radio",
@@ -887,7 +1159,12 @@
         "description": "v-model binding"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/radio-group": {
     "dir": "src/components/form-inputs/radio-group",
@@ -899,6 +1176,11 @@
     "type": "component",
     "readme": false,
     "props": {
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
+      },
       "kind": {
         "type": "'default' | 'grouped' | 'inline'",
         "description": "Field layout style"
@@ -916,7 +1198,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/segment": {
     "dir": "src/components/containers/segment",
@@ -928,18 +1215,28 @@
     "type": "component",
     "readme": false,
     "props": {},
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/tab": {
     "dir": "src/components/containers/tab",
     "id": "component/tab",
     "module": "tab",
-    "isBase": false,
     "base": {
       "Vue": "vue"
     },
     "type": "component",
     "readme": false,
+    "props": {
+      "kind": {
+        "type": "'standard' | 'menu' | 'pointing'",
+        "description": "Tab style"
+      }
+    },
     "methods": {
       "changeTab": {
         "description": "Changes tab to path",
@@ -949,12 +1246,10 @@
             "type": "string"
           }
         }
-      }
-    },
-    "props": {
-      "kind": {
-        "type": "'standard' | 'menu' | 'pointing'",
-        "description": "Tab style"
+      },
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
       }
     }
   },
@@ -975,9 +1270,18 @@
       "caption": {
         "type": "string",
         "description": "Tab caption"
+      },
+      "path": {
+        "type": "string",
+        "description": "Name of path"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/time": {
     "dir": "src/components/form-inputs/calendar/time",
@@ -992,6 +1296,11 @@
       "can-clear": {
         "type": "boolean",
         "description": "Enable user to clear the value by clicking clear button on the right side of control"
+      },
+      "disabled": {
+        "type": "boolean",
+        "description": "Disabled field",
+        "default": "false"
       },
       "format": {
         "type": "string",
@@ -1030,7 +1339,12 @@
         "description": "Size of field"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "component/tree": {
     "dir": "src/components/etc/tree",
@@ -1073,7 +1387,12 @@
         "default": "'ul'"
       }
     },
-    "methods": {}
+    "methods": {
+      "target": {
+        "type": "JQuery",
+        "description": "Target element"
+      }
+    }
   },
   "decorator/form": {
     "dir": "src/decorators/form",
@@ -1121,6 +1440,13 @@
     "dir": "src/modules/focus",
     "id": "module/focus",
     "module": "focus",
+    "type": "module",
+    "readme": true
+  },
+  "module/loading": {
+    "dir": "src/modules/loading",
+    "id": "module/loading",
+    "module": "loading",
     "type": "module",
     "readme": true
   },

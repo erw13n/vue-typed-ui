@@ -1,9 +1,14 @@
 import { _PusherBase } from './_base';
-import { Component } from 'vue-typed';
+import { Options } from 'vue-typed';
+import { IPusher } from '../../../../lib/interface';
 
-@Component({
+@Options({
 	template: '<div class="pusher"><slot></slot></div>'
 })
-export class Pusher extends _PusherBase { 
+export class Pusher extends _PusherBase implements IPusher { 
+
+	target() : JQuery {
+		return $(this.$el)
+	}
 
 }

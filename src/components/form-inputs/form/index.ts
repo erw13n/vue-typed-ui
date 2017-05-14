@@ -1,9 +1,14 @@
 import * as Vue from 'vue'
-import { Component, Prop } from 'vue-typed'
+import { Options, Prop } from 'vue-typed'
 import { _FormBase } from './_base';
+import { IForm } from '../../../../lib/interface';
 
-@Component()
-export class Form extends _FormBase {
+@Options()
+export class Form extends _FormBase implements IForm {
+
+	target() : JQuery {
+		return $(this.$el)
+	}
 
 	mounted() {
 
@@ -17,7 +22,7 @@ export class Form extends _FormBase {
 			},
 
 			// using default form keyboard shortcuts instead 
-			keyboardShortcuts: false
+			keyboardShortcuts: false// this.keyboardShortcuts
 		};
 
 		if (this.validator) {
@@ -26,11 +31,12 @@ export class Form extends _FormBase {
 				inline: this.validateInline
 			})
 		}
+	
 
 		// domProps.onsubmit is flaky, let's do with jQuery instead
-		$(this.$el).submit(function (e) {
-			e.preventDefault();
-		});
+			$(this.$el).submit(function (e) {
+				e.preventDefault();
+			});
 
 		$(this.$el).form(opt)
 

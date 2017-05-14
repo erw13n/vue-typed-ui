@@ -1,12 +1,16 @@
 import * as Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-typed';
+import { Options, Prop, Watch } from 'vue-typed';
 import { Calendar } from '../calendar';
 import * as moment from 'moment'
 import { _DateBase } from './_base';
+import { IDate } from '../../../../../lib/interface'
 
+@Options()
+export class Date extends _DateBase implements IDate {
 
-@Component()
-export class Date extends _DateBase {
+	target(): JQuery {
+		return $(this.$el)
+	}
 
 	calendarOptions() {
 		return {

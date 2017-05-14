@@ -1,13 +1,28 @@
 import * as components from './components'
-import * as methods from './components/methods'
 import * as modules from './modules'
 import * as filters from './filters'
 import * as Vue from 'vue'
 import * as _ from 'lodash'
 
+const hyphenateRE = /([^-])([A-Z])/g
+const hyphenate = ((str: string): string => {
+	return str
+		.replace(hyphenateRE, '$1-$2')
+		.replace(hyphenateRE, '$1-$2')
+		.toLowerCase()
+})
+
 export function register_all_components(vue: typeof Vue, prefix: string) {
 	for (var k in components) {
-		vue.component(prefix + '-' + Vue['util'].hyphenate(k), components[k])
+		let opt = components[k]
+		if (typeof opt === 'function')
+			opt = opt.options
+
+		// clear components so it will have new names
+		delete opt.components
+
+		opt.name = prefix + '-' + hyphenate(k)
+		vue.component(opt.name, vue.extend(opt))
 	}
 }
 
@@ -32,8 +47,17 @@ export function register_all_methods(vue: typeof Vue, instance) {
 			for (var k in modules) {
 				mdls[k] = modules[k](instance, this)
 			}
-			for (var k in methods) {
-				mdls[k] = methods[k](instance, this)
+			for (var k in components) {
+				mdls[_.camelCase(k)] = (ref) => {
+					if (typeof ref !== 'string')
+						throw new Error('ref must be string represents the ref name of component')
+
+					let component = this.$refs[ref]
+					if (!component)
+						throw new Error(`Could not resolve ui component in '${this.$options.name}' referenced by '${ref}'.`)
+
+					return component
+				}
 			}
 
 			mdls = _.merge(mdls, instance)
@@ -47,7 +71,7 @@ export function register_all_methods(vue: typeof Vue, instance) {
 
 export function register_all_filters(vue: typeof Vue, prefix: string, instance) {
 	for (var k in filters) {
-		vue.filter(prefix + '-' + Vue['util'].hyphenate(k), filters[k](instance))
+		vue.filter(prefix + '-' + hyphenate(k), filters[k](instance))
 	}
 }
 

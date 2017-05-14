@@ -1,16 +1,15 @@
 import * as Vue from 'vue'
-import { Component, Prop } from 'vue-typed';
+import { Options, Prop } from 'vue-typed';
 import { Util } from '../../../utils';
 import { _FieldBaseBase } from './_base';
 
 
-@Component()
 export abstract class FieldBase extends _FieldBaseBase {
 
-	abstract createComponent(ch);
+	abstract createComponent(ch): any;
 
 	render(ch) {
-		
+
 		var slots = this.createComponent(ch) || this.$slots['default'];
 
 		var contents = [];
@@ -26,22 +25,27 @@ export abstract class FieldBase extends _FieldBaseBase {
 			style = this.kind + ' fields'
 		}
 
-		var el = ch('div', {
+		if (this.disabled) {
+			style += ' disabled'
+		}
+
+		return ch('div', {
 			'class': Util.buildClassObject(style, Util.parseWide(this.wide))
 		}, contents);
 
-		return this.postRender(ch, el);
+		// return this.postRender(ch, el);
 	}
 
-	postRender(ch, el) {
-		return el
-	}
-
+	// postRender(ch, el) {
+	// 	return el
+	// }
+	
 	emiter(type) {
 		var self = this;
-		return function(e) {
-			self.$emit(type, e['target'].value);	
+		return function (e) {
+			self.$emit(type, e['target'].value);
 		}
 	}
+
 
 }

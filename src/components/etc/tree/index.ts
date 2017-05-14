@@ -1,12 +1,17 @@
 import * as Vue from 'vue'
-import { Component, Prop } from 'vue-typed';
+import { Options, Prop } from 'vue-typed';
 import { Util } from '../../../utils';
-import { VueTypedUI } from '../../../index'
+import { VueTypedUI } from '../../../index';
 import { _TreeBase } from './_base';
+import { ITree } from '../../../../lib/interface';
 
 
-@Component()
-export class Tree extends _TreeBase {
+@Options()
+export class Tree extends _TreeBase implements ITree {
+
+	target(): JQuery {
+		return $(this.$el)
+	}
 
 	render(ch) {
 

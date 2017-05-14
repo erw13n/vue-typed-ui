@@ -1,20 +1,18 @@
-import * as Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-typed';
-import { FieldBase } from '../../../fields/field-base';
+import { Watch } from 'vue-typed';
 import { Util } from '../../../../utils';
 import { _CalendarBase } from './_base';
 
 
-@Component()
 export abstract class Calendar extends _CalendarBase {
 
-	abstract calendarOptions() : {
+	calendarOptions(): {
 		icon: string,
 		type: string
+	} {
+		return null
 	}
 
 	createComponent(ch) {
-
 		let attr = this.calendarOptions()
 
 		let children = [
@@ -40,7 +38,6 @@ export abstract class Calendar extends _CalendarBase {
 			[
 				ch('div', { attrs: { 'class': css } }, children)
 			]);
-
 	}
 
 	mounted() {
@@ -63,6 +60,9 @@ export abstract class Calendar extends _CalendarBase {
 			type: attr.type,
 			onChange: (date, text) => {
 				this.$emit('input', date);
+			},
+			popupOptions: {
+				observeChanges: false
 			}
 		}
 

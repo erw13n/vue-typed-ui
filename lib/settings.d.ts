@@ -4,6 +4,8 @@ export interface Settings {
   dateFormat?: DateFormat
   timeFormat?: TimeFormat
   numeric?: NumericSettings
+  toastr?: ToastrOptions
+  dropdown?: SemanticUI.Dropdown.Settings
 }
 
 export interface NumericSettings {

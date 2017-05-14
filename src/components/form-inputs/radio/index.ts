@@ -1,16 +1,23 @@
 import * as Vue from 'vue'
-import { Component, Prop } from 'vue-typed';
+import { Options, Prop } from 'vue-typed';
 import { _RadioBase } from './_base';
+import { IRadio } from '../../../../lib/interface';
 
-@Component({
+@Options({
 	template: `
-	<div class="ui radio checkbox">
-		<input type="radio" class="hidden" :checked="value==val">
-		<label><slot></slot></label>
+	<div class="field">
+		<div class="ui radio checkbox">
+			<input type="radio" class="hidden" :checked="value==val">
+			<label><slot></slot></label>
+		</div>
 	</div>
 	`
 })
-export class Radio extends _RadioBase {
+export class Radio extends _RadioBase implements IRadio {
+
+	target(): JQuery {
+		return $(this.$el).find('.ui.radio')
+	}
 
 	mounted() {
 
@@ -19,7 +26,6 @@ export class Radio extends _RadioBase {
 
 		if (p.$options.name == 'RadioGroup') {
 			name = name || p['groupName'];
-			$(this.$el).wrap('<div class="field"></div>')	
 		}
 
 		var self = this;
@@ -31,7 +37,7 @@ export class Radio extends _RadioBase {
 			});
 
 		Vue.nextTick(() => {
-			$(this.$el).checkbox()
+			this.target().checkbox()
 		})
 	}
 }

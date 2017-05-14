@@ -1,12 +1,24 @@
 import * as Vue from 'vue'
-import { Component, Watch } from 'vue-typed';
+import { Options, Watch } from 'vue-typed';
 import { _ButtonBase } from './_base';
+import { IButton } from '../../../../lib/interface'
 
-
-@Component({
+@Options({
 	// template: '<button @click="click" class="ui button" type="button"><slot></slot></button>'
 })
-export class Button extends _ButtonBase {
+export class Button extends _ButtonBase implements IButton {
+
+	target(): JQuery {
+		return $(this.$el)
+	}
+
+	loading(state: boolean): JQuery {
+		let target = this.target()
+		if (state)
+			return target.addClass('loading')
+		return target.removeClass('loading')
+	}
+
 
 	render(ch) {
 
@@ -15,7 +27,7 @@ export class Button extends _ButtonBase {
 		var hiddenSlot = this.$slots['hidden']
 		if (hiddenSlot) {
 			css += ' animated'
-			if (this.animation) css += ' ' + this.animation			
+			if (this.animation) css += ' ' + this.animation
 			children.push(ch('div', {
 				'class': 'visible content'
 			}, this.$slots['default']))
@@ -35,7 +47,7 @@ export class Button extends _ButtonBase {
 		}
 
 		if (this.float) {
-			css += ' ' + this.float + ' floated' 
+			css += ' ' + this.float + ' floated'
 		}
 
 		if (this.color) {
@@ -43,6 +55,9 @@ export class Button extends _ButtonBase {
 		}
 
 		var el = ch('button', {
+			attrs: {
+				type: this.type
+			},
 			on: {
 				'click': this.click
 			},
@@ -54,11 +69,12 @@ export class Button extends _ButtonBase {
 
 	mounted() {
 		if (this.icon) {
-			var iconEl = '<i class="'+ this.icon +' icon"></i>'
+			let iconEl = '<i class="' + this.icon + ' icon"></i>'
+			let target = this.target()
 			if (this.iconPos === 'right')
-				$(this.$el).addClass('icon').append(' ').append(iconEl)
+				target.addClass('icon').append(' ').append(iconEl)
 			else
-				$(this.$el).addClass('icon').prepend(' ').prepend(iconEl)
+				target.addClass('icon').prepend(' ').prepend(iconEl)
 		}
 	}
 
@@ -67,10 +83,11 @@ export class Button extends _ButtonBase {
 	}
 
 	setDisabled(disabled) {
+		let target = this.target()
 		if (disabled) {
-			$(this.$el).addClass('disabled')
+			target.addClass('disabled')
 		} else {
-			$(this.$el).removeClass('disabled')
+			target.removeClass('disabled')
 		}
 	}
 

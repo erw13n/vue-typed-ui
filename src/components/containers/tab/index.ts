@@ -1,9 +1,9 @@
 import * as Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-typed';
+import { Options, Prop, Watch } from 'vue-typed';
 import { _TabBase } from './_base';
+import { ITab } from '../../../../lib/interface'
 
-
-@Component({
+@Options({
 	template: `<div>
 		<div :class="css">
 			<a v-for="i in items" class="item" v-bind:data-tab="i.dataTab">
@@ -13,23 +13,31 @@ import { _TabBase } from './_base';
 		<slot></slot>
 	</div>`
 })
-export class Tab extends _TabBase {
-	
-	activeTab
+export class Tab extends _TabBase implements ITab {
+		
+	changeTab(path: string) {
+		return $(this.$el).find('.item').tab('change tab', path);
+	}
 
-	css: string
+	activeTab = undefined
+
+	css: string = ''
 
 	items: any[] = []
 
-	created() {
-		this.activeTab = this._tabName(1);
+	created() {		
 		this.items = [];
 		this.updateStyle();
+	}
+
+	target(): JQuery {
+		return $(this.$el).find('.menu .item')
 	}
 
 	mounted() {
 		
 		Vue.nextTick(() => {
+			this.activeTab = this.firstTab;
 			this._suiInit();
 		})
 	}
@@ -43,10 +51,13 @@ export class Tab extends _TabBase {
 
 	}
 
+	firstTab = undefined
+
 	createItem(item): string {
 
 		this.items.push(item);
-		var tabName = this._tabName(this.items.length);
+		let tabName = item.path || this._tabName(this.items.length);
+		if (!this.firstTab) this.firstTab = tabName
 
 		if (item.active == true) {
 			this.activeTab = tabName;
@@ -87,7 +98,7 @@ export class Tab extends _TabBase {
 	}
 
 	destroyed() {
-		$(this.$el).find('.menu .item').tab('destroy')
+		this.target().tab('destroy')
 	}
 
 }

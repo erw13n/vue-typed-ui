@@ -1,10 +1,15 @@
 import * as Vue from 'vue'
-import { Component, Prop } from 'vue-typed';
+import { Options, Prop } from 'vue-typed';
 import { Util } from '../../../utils';
 import { _FieldsGroupBase } from './_base';
+import { IFieldsGroup } from '../../../../lib/interface';
 
-@Component()
-export class FieldsGroup extends _FieldsGroupBase {
+@Options()
+export class FieldsGroup extends _FieldsGroupBase implements IFieldsGroup {
+
+	target(): JQuery {
+		return $(this.$el)
+	}
 
 	render(ch) {
 
